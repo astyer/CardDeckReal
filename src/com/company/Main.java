@@ -9,22 +9,34 @@ public class Main {
         ArrayList extraNames = new ArrayList();
         ArrayList extraAmounts = new ArrayList();
         ArrayList facesar = new ArrayList();
+        int low = 2;
+        int high = 1;
 
         System.out.println("How many of each suit?");
         int suitAmount = inputI.nextInt();
-        System.out.println("How many different suits?");
-        int suitN = inputI.nextInt();
+
         System.out.println("Names of each suit? (Separate by spaces)");
         String suitNames = inputS.nextLine();
         String[] suitNamesar = suitNames.split(" ");
-        System.out.println("Lowest card and highest card(non face card)?");
-        int low= inputS.nextInt();
-        int high = inputI.nextInt();
-        System.out.println("Standard face? Ace, Jack, King and Queen? (yes or no)");
+
+        while(low>high)
+        {
+            System.out.println("Lowest card and highest card (non face card)?");
+            low= inputI.nextInt();
+            high = inputI.nextInt();
+            if(low>high)
+            {
+                System.out.println("Low must be less than high.");
+            }
+        }
+
+
+
+        System.out.println("Standard face? Jack, Queen, King, and Ace? (yes or no)");
         String face = inputS.nextLine();
         if(face.equalsIgnoreCase("yes"))
         {
-            String [] faces = {"Ace", "Jack", "King", "Queen"};
+            String [] faces = {"Jack", "Queen", "King", "Ace"};
             for(int i = 0; i<faces.length; i++)
             {
                 facesar.add(faces[i]);
@@ -35,46 +47,74 @@ public class Main {
             System.out.println("Names of each face? (Separate by spaces)");
             String faceNames = inputS.nextLine();
             String[] faces = faceNames.split(" ");
+            for(int i = 0; i<faces.length; i++)
+            {
+                facesar.add(faces[i]);
+            }
         }
+
         System.out.println("Extra cards and amount? (Enter " + '"' + "none" + '"' + " if there are none)");
-        String extra = inputS.next();
+        String extra = inputS.nextLine();
         if(extra.equalsIgnoreCase("none"))
         {
-            extraNames.add("No extra cards");
         }
         else
         {
             int extraAmount = inputI.nextInt();
             extraNames.add(extra);
             extraAmounts.add(extraAmount);
-            boolean more = true;
-            while(more)
+            while(true)
             {
-                System.out.println("Extra cards and amount? (Enter " + '"' + "none" + '"' + " if there are none)");
-                String extra2 = inputS.next();
-                if(extra2.equalsIgnoreCase("none"))
+                System.out.println("More extra cards and amount? (Enter " + '"' + "done" + '"' + " if there are no more)");
+                String extra2 = inputS.nextLine();
+                if(extra2.equalsIgnoreCase("done"))
                 {
-                    more = false;
+                    break;
                 }
                 else
                 {
-                    int extraAmount2 = inputI.nextInt();
                     extraNames.add(extra2);
+                    int extraAmount2 = inputI.nextInt();
                     extraAmounts.add(extraAmount2);
                 }
             }
         }
-        String[]ranks = new String[high-low+1+facesar.size()];
-        for(int x = 0; x<ranks.length; x++)
+
+        String[]ranks = new String[(high-low)+1+facesar.size()];
+        int x = 0;
+        int i = low;
+        while(x<ranks.length-facesar.size())
         {
-            for(int i = low; i<=high; i++)
+            ranks[x] = Integer.toString(i);
+            x++;
+            i++;
+        }
+        int count = high-low+1;
+        for(int j = 0; j<facesar.size(); j++)
+        {
+            ranks[count] = (String)facesar.get(j);
+            count++;
+        }
+
+        Deck theDeck = new Deck(ranks, suitNamesar, suitAmount);
+
+        System.out.println("Your customized deck:");
+        for(int k = 0; k<theDeck.cards.size(); k++)
+        {
+            Card dummy = (Card)theDeck.cards.get(k);
+            System.out.println(dummy.printable());
+        }
+
+        if(extraAmounts.size()>0)
+        {
+            for(int p = 0; p<extraNames.size(); p++)
             {
-                ranks[x] = Integer.toString(i);
-                break;
+                for(int d = 0; d<(int)extraAmounts.get(p); d++)
+                {
+                    System.out.println((String)extraNames.get(p));
+                }
             }
         }
-        //add face ranks
-        Deck dobj = new Deck(ranks, )
 
     }
 }
