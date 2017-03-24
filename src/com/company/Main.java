@@ -116,5 +116,37 @@ public class Main {
             }
         }
 
+        System.out.println("");
+        while(true)
+        {
+            System.out.println("Would you like to shuffle your deck?");
+            String yn = inputS.nextLine();
+            if(yn.equalsIgnoreCase("yes"))
+            {
+                theDeck.shuffle();
+                System.out.println("Shuffled Deck:");
+                for(int k = 0; k<theDeck.cards.size(); k++)
+                {
+                    Card dummy = (Card)theDeck.cards.get(k);
+                    System.out.println(dummy.printable());
+                }
+                if(extraAmounts.size()>0)
+                {
+                    for(int p = 0; p<extraNames.size(); p++)
+                    {
+                        for(int d = 0; d<(int)extraAmounts.get(p); d++)
+                        {
+                            System.out.println((String)extraNames.get(p));
+                        }
+                    }
+                }
+                System.out.println("");
+            }
+            else
+            {
+                break;
+            }
+        }
+
     }
 }
